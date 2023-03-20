@@ -7,7 +7,7 @@ const int max_itens = 100;
 class pilha
 {
 private:
-    int tamanho;
+    int tamanho = 0;
     TipoItem* estrutura;
 public:
     pilha();

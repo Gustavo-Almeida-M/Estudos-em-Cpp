@@ -3,7 +3,6 @@
 
     pilha::pilha()
     {
-        tamanho = 0;
         estrutura = new TipoItem[max_itens];
     }
 
@@ -24,14 +23,15 @@
 
     void  pilha::inserir(TipoItem item)
     {
-        if(estaCheia)
+
+        if(estaCheia())
         {
             std::cout << "A pilha está cheia\n";
-            std::cout << "Não é possivel adicionar mais itens\n";
+            std::cout << "Nao e possivel adicionar mais itens\n";
         }
         else
         {
-            estrutura[tamanho] == item;
+            estrutura[tamanho] = item;
             tamanho++;
         }
     }
@@ -40,12 +40,13 @@
     {
         if(estaVazia())
         {
-            std::cout << "A pilha está vazia\n";
-            std::cout << "Não tem itens para serem removidos\n";
+            std::cout << "A pilha esta vazia\n";
+            std::cout << "Nao tem itens para serem removidos\n";
             return 0;
         }
         else
         {
+            std::cout << "Item removido: " << estrutura[tamanho - 1] << "\n";
             tamanho--;
             return estrutura[tamanho];
         }
@@ -53,10 +54,18 @@
 
     void  pilha::imprimir()
     {
-        std::cout << "Pilha [";
+        std::cout << "Pilha: [";
         for(int i = 0; i < tamanho; i++)
         {
-            std::cout << estrutura[i] << " ";
+            if(i == 0)
+            {
+                std::cout << estrutura[i];
+            }
+            else
+            {
+                std::cout << " " << estrutura[i];
+            }
+            
         }
         std::cout << "]\n";
     }
