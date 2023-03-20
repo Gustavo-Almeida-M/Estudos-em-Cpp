@@ -4,6 +4,8 @@ int main()
 {
     int matriz[3][3];
     int soma[3];
+    int somaDiagonalBaixo = 0;
+    int somaDiagonalCima = 0;
     soma[1] = 0;
     for(int i = 0; i < 3; i++)
     {
@@ -19,8 +21,16 @@ int main()
             soma[i] += matriz[i][j]; 
         }
     }
-    int somaDiagonalBaixo = matriz[0][0] + matriz[1][1] + matriz[2][2];
-    int somaDiagonalCima = matriz[2][0] + matriz[1][1] + matriz[0][2];
+    for(int i = 0; i < 3; i++)
+    {
+        somaDiagonalBaixo += matriz[i][i];
+    }
+    for(int i = 2; i >= 0; i--)
+    {
+        int posicao = 0;
+        somaDiagonalCima += matriz[i][posicao];
+        posicao++;
+    }
     for(int i = 0; i < 3; i++)
     {
         if(soma[i] != somaDiagonalBaixo || soma[i] != somaDiagonalCima)
