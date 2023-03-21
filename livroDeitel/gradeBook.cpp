@@ -6,6 +6,10 @@ using std::string;
 class GradeBook
 {
     public:
+        GradeBook(std::string name)
+        {
+            setCourseName(name);
+        }
         void setCourseName(string name)
         {   
             courseName = name;
@@ -24,9 +28,9 @@ class GradeBook
 
 int main()
 {
-    GradeBook myGradeBook;
+    GradeBook myGradeBook("Carro");
     string nameOfCourse;
-
+    myGradeBook.displayMenssage();
     std::cout << "Please enter the course name:" << std::endl;
     std::getline(std::cin, nameOfCourse);
     
