@@ -28,8 +28,6 @@ int main()
     int qtd = 0;
     std::cout << "Digite qual a posição do numero da sequencia de fibonacci voce deseja: ";
     std::cin >> qtd;
-    std::cout << "F(" << qtd << ") = " << fibo(qtd) << std::endl;
+    std::cout << "Valor =  " << fibo(qtd);
     return 0;
-
-    
 }
