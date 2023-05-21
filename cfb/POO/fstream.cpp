@@ -3,11 +3,27 @@
 
 int main()
 {
-    std::ofstream arquivo;
+    std::ofstream arquivoS;
 
-    arquivo.open("Carros.txt", std::ios::app);
+    arquivoS.open("Carros.txt");
 
-    arquivo << " Vectra, hilux, S10, chevette";
+    arquivoS << "Vectra, hilux, S10, chevette";
 
-    arquivo.close();
+    arquivoS.close();
+
+    std::ifstream arquivoE;
+
+    std::string linha;
+    arquivoE.open("Carros.txt", std::ios::app);
+
+    if(arquivoE.is_open())
+    {
+        std::getline(arquivoE, linha);
+        std::cout << linha << '\n';
+        arquivoE.close();
+    }
+    else 
+    {
+        std::cout << "Não foi possivel abrir\n";
+    }
 }
