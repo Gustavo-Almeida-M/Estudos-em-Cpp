@@ -1,3 +1,4 @@
+//Usando try catch
 #include <iostream>
 #include <stdexcept>
 
