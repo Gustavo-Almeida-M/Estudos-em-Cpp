@@ -75,7 +75,8 @@ SparseMatrix::~SparseMatrix(){ // Complexidade : O(n²)
 }
 
 void SparseMatrix::insert(int linha, int coluna, double valor){ // Complexidade : O(n)
-    if (linha > this->m_linha || coluna > this->m_coluna || linha < 1 || coluna < 1){
+    if (linha > this->m_linha || coluna > this->m_coluna || linha < 0 || coluna < 0)
+    {
         throw std::out_of_range("Posicao invalida");
     }
 
