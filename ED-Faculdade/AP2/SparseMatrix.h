@@ -15,10 +15,8 @@ class SparseMatrix{
     public:
         // Construtor passando o número de linhas e colunas da matriz
         SparseMatrix(int coluna, int linha);
-
         // Destrutor
         ~SparseMatrix();
-
         /**
          * Inserir/Substituir elemento na matriz passando número de linhas e colunas
          * e o valor a ser inserido
@@ -36,6 +34,10 @@ class SparseMatrix{
 
        // Retonar o número de linhas da matriz
        int getLinhas();
+    
+       void remove(int linha, int coluna);
+
+       SparseMatrix copia() const;
 };
 
 #endif
