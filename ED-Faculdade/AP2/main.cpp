@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <limits>
 
 using namespace std;
 
@@ -54,23 +55,28 @@ int main()
 
         else if (token == "insert")
         {
-        int nMatriz, linha, coluna;
-        double valor;
-        
-        cin >> nMatriz >> linha >> coluna >> valor;
-        
-        matrix[nMatriz]->insert(linha, coluna, valor);
+            int nMatriz, linha, coluna;
+            double valor;
+
+            cin >> nMatriz >> linha >> coluna >> valor;
+
+            matrix[nMatriz]->insert(linha, coluna, valor);
+
+            cin.ignore(); // Limpa o buffer de entrada
+
         }
 
         // removeAll x l
-		else if(token == "remove") 
+		else if (token == "remove")
         {
-			int nMatriz, linha, coluna;
-            
+            int nMatriz, linha, coluna;
+
             cin >> nMatriz >> linha >> coluna;
 
-			matrix[nMatriz]->remove(linha, coluna);
-		}
+            matrix[nMatriz]->remove(linha, coluna);
+
+            cin.ignore(); // Limpa o buffer de entrada
+        }
         else if(token == "sum")
         {
             int matriz1, matriz2;
@@ -93,13 +99,15 @@ int main()
 			cout << matrix[nMatrix]->get(linha, coluna);
 		}
         // show 
-		else if(token == "show") 
+		else if (token == "show")
         {
-            for(unsigned i = 0; i < matrix.size(); i++) 
+            for (unsigned i = 0; i < matrix.size(); i++)
             {
                 (*matrix[i]).print();
-            }	
-		}
+            }
+
+            cin.ignore(); // Limpa o buffer de entrada
+        }
 		else 
         {
 			cout << "comando inexistente" << endl;

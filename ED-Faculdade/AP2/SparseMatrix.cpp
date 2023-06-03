@@ -75,7 +75,7 @@ SparseMatrix::~SparseMatrix(){ // Complexidade : O(n²)
 }
 
 void SparseMatrix::insert(int linha, int coluna, double valor){ // Complexidade : O(n)
-    if (linha > this->m_linha || coluna > this->m_coluna || linha < 0 || coluna < 0)
+    if (linha > this->m_linha || coluna > this->m_coluna || linha < 1 || coluna < 1)
     {
         throw std::out_of_range("Posicao invalida");
     }
@@ -130,13 +130,13 @@ void SparseMatrix::remove(int linha, int coluna) {
         aux2 = aux2->nextdireita;
 
     Node* prev1 = aux1;
-    while (aux1->nextdireita->coluna < coluna && aux1->nextdireita->coluna != 0) {
+    while (aux1->nextdireita != aux1 && aux1->nextdireita->coluna < coluna) {
         prev1 = aux1;
         aux1 = aux1->nextdireita;
     }
 
     Node* prev2 = aux2;
-    while (aux2->nextbaixo->linha < linha && aux2->nextbaixo->linha != 0) {
+    while (aux2->nextbaixo != aux2 && aux2->nextbaixo->linha < linha) {
         prev2 = aux2;
         aux2 = aux2->nextbaixo;
     }
@@ -151,6 +151,7 @@ void SparseMatrix::remove(int linha, int coluna) {
         throw std::runtime_error("Elemento nao encontrado na matriz esparsa");
     }
 }
+
 
 // Devolver o valor da matrix
 double SparseMatrix::get(int linha, int coluna){ // Complexidade : O(n)
