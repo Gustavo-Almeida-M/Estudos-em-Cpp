@@ -94,7 +94,8 @@ void SparseMatrix::insert(int linha, int coluna, double valor){ // Complexidade 
     while (aux2->nextbaixo->linha < linha && aux2->nextbaixo->linha != 0)
         aux2 = aux2->nextbaixo;
 
-    if (aux1->nextdireita->coluna == linha && aux2->nextbaixo->linha == coluna){   
+    if (aux1->nextdireita->coluna == coluna && aux2->nextbaixo->linha == linha)
+    {   
         if(valor == 0){
             Node* temp1 = aux1->nextdireita->nextdireita;
             Node* temp2 = aux1->nextdireita->nextbaixo;

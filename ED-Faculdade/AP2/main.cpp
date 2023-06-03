@@ -32,7 +32,7 @@ int main()
 			matrix.clear();
 			break;
 		}
-		// create
+
 		// create
         else if (token == "create")
         {
@@ -43,24 +43,48 @@ int main()
         SparseMatrix *lst = new SparseMatrix(linhas, colunas);
         matrix.push_back(lst);
         cin.ignore();
-        }  
+        }
 
-		// createWith l
 		else if(token == "copia") 
         {
 			int nMatriz;
             ss >> nMatriz;
 			SparseMatrix lst =  matrix[nMatriz]->copia();
 		}
+
+        else if (token == "insert")
+        {
+        int nMatriz, linha, coluna;
+        double valor;
+        
+        cin >> nMatriz >> linha >> coluna >> valor;
+        
+        matrix[nMatriz]->insert(linha, coluna, valor);
+        }
+
         // removeAll x l
-		else if(token == "remove") {
+		else if(token == "remove") 
+        {
 			int nMatriz, linha, coluna;
             
             cin >> nMatriz >> linha >> coluna;
 
 			matrix[nMatriz]->remove(linha, coluna);
 		}
-        // equals l1 l2 
+        else if(token == "sum")
+        {
+            int matriz1, matriz2;
+            cout << "Digite quais matrizes quer somar: \n";
+            cin >> matriz1 >> matriz2;
+
+            SparseMatrix* resultado = sum(matrix[matriz1], matrix[matriz2]);
+
+            // Faça algo com a matriz resultado, como imprimir seus valores
+            resultado->print();
+
+            // Lembre-se de liberar a memória alocada para a matriz resultado
+            delete resultado;
+        }
 		// get i l
 		else if(token == "get") 
         {
@@ -116,6 +140,7 @@ SparseMatrix* sum(SparseMatrix* A, SparseMatrix* B)
         else{
             throw std::runtime_error("As matrizes nao podem ser somadas");
         }
+
 }
 
 SparseMatrix* multiply(SparseMatrix* A, SparseMatrix* B)
