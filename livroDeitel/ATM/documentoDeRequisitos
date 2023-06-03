@@ -1,0 +1,8 @@
+Caixa de um banco:
+usuario pode colocar ou retirar o dinheiro da conta
+pode visualizar o saldo
+cada usuario pode ter somente uma conta
+
+interface:
+tela com informações
+limite diario de 500

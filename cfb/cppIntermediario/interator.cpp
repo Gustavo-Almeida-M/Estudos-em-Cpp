@@ -13,9 +13,9 @@ int main()
 
     //std::advance(it,2);
 
-    for(it=carros.begin(); it != carros.end(); it++)
+    for(auto it : carros)
     {
-        std::cout << *it << '\n';
+        std::cout << it << '\n';
     }
 
 }

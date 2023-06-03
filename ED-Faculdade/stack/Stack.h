@@ -12,7 +12,7 @@ private:
 
 
 public:
-    Stack();
+    Stack()
     {
         m_top = nullptr;
         m_size = 0;

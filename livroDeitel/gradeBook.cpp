@@ -1,3 +1,4 @@
+//um programa simples onde o usuario digita um nome, e o programa imprime ele usando objeto.
 #include <iostream>
 #include <string>
 
