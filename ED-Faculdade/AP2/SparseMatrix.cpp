@@ -5,23 +5,28 @@
 #include "SparseMatrix.h"
 #include <iostream>
 
-SparseMatrix::SparseMatrix(int coluna, int linha) : m_coluna(coluna), m_linha(linha) {
+SparseMatrix::SparseMatrix(int coluna, int linha) : m_coluna(coluna), m_linha(linha)
+{
     // Inicializa a cabeça da matriz esparsa
     m_head = new Node(0, 0, 0, nullptr, nullptr);
 }
 
-SparseMatrix::~SparseMatrix() {
+SparseMatrix::~SparseMatrix()
+{
     // Libera a memória alocada pelos nós da matriz esparsa
     Node* current = m_head;
-    while (current != nullptr) {
+    while (current != nullptr)
+    {
         Node* temp = current;
         current = current->nextbaixo;
         delete temp;
     }
 }
 
-void SparseMatrix::insert(int linha, int coluna, double valor) {
-    if (linha <= 0 || linha > m_linha || coluna <= 0 || coluna > m_coluna) {
+void SparseMatrix::insert(int linha, int coluna, double valor)
+{
+    if (linha < 0 || linha > m_linha || coluna < 0 || coluna > m_coluna)
+    {
         std::cout << "Posicao invalida." << std::endl;
         return;
     }
@@ -29,25 +34,25 @@ void SparseMatrix::insert(int linha, int coluna, double valor) {
     // Encontra o nó anterior na mesma linha
     Node* prevRow = nullptr;
     Node* currentRow = m_head;
-    while (currentRow != nullptr && currentRow->linha < linha) {
-        prevRow = currentRow;
+    while (currentRow->nextbaixo != nullptr && currentRow->nextbaixo->linha < linha) {
+        prevRow = currentRow->nextbaixo;
         currentRow = currentRow->nextbaixo;
     }
 
     // Encontra o nó anterior na mesma coluna
     Node* prevCol = nullptr;
     Node* currentCol = m_head;
-    while (currentCol != nullptr && currentCol->coluna < coluna) {
-        prevCol = currentCol;
+    while (currentCol->nextdireita != nullptr && currentCol->nextdireita->coluna < coluna) {
+        prevCol = currentCol->nextdireita;
         currentCol = currentCol->nextdireita;
     }
 
     // Verifica se o nó já existe
-    if (currentRow != nullptr && currentRow->linha == linha && currentRow->coluna == coluna) {
-        currentRow->valor = valor;
+    if (currentRow->nextbaixo != nullptr && currentRow->nextbaixo->linha == linha && currentRow->nextbaixo->coluna == coluna) {
+        currentRow->nextbaixo->valor = valor;
     } else {
         // Cria um novo nó
-        Node* newNode = new Node(valor, linha, coluna, currentCol, currentRow);
+        Node* newNode = new Node(valor, linha, coluna, currentCol->nextdireita, currentRow->nextbaixo);
 
         // Atualiza os ponteiros para inserir o novo nó
         if (prevRow != nullptr) {
@@ -64,8 +69,12 @@ void SparseMatrix::insert(int linha, int coluna, double valor) {
     }
 }
 
+
+
+
+
 double SparseMatrix::get(int linha, int coluna) {
-    if (linha <= 0 || linha > m_linha || coluna <= 0 || coluna > m_coluna) {
+    if (linha < 0 || linha >= m_linha || coluna < 0 || coluna >= m_coluna) {
         std::cout << "Posicao invalida." << std::endl;
         return 0;
     }
@@ -81,14 +90,17 @@ double SparseMatrix::get(int linha, int coluna) {
     return 0;
 }
 
-void SparseMatrix::print() {
-    for (int i = 1; i <= m_linha; i++) {
-        for (int j = 1; j <= m_coluna; j++) {
+
+void SparseMatrix::print()
+{
+    for (int i = 0; i < m_linha; i++) {
+        for (int j = 0; j < m_coluna; j++) {
             std::cout << get(i, j) << " ";
         }
         std::cout << std::endl;
     }
 }
+
 
 int SparseMatrix::getColunas() {
     return m_coluna;
