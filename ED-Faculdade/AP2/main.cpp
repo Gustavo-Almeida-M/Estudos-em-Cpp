@@ -61,6 +61,7 @@ int main()
         else if(token == "copiar")
         {
             int nMatriz;
+            std::cout << "Digite o numero da matriz para ser copiada\n";
             std::cin >> nMatriz;
             SparseMatrix* lst = new SparseMatrix(*matrix[nMatriz]);
             matrix.push_back(lst);
@@ -136,7 +137,9 @@ int main()
         {
             for (unsigned i = 0; i < matrix.size(); i++)
             {
+                std::cout << "Matriz: " << i << '\n';
                 matrix[i]->print();
+                std::cout << '\n';
             }
         }
         else if (token == "load")

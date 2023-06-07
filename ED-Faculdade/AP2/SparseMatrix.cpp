@@ -94,10 +94,13 @@ double SparseMatrix::get(int linha, int coluna) {
 
 
 void SparseMatrix::print() {
-    for (int i = 0; i < m_linha; i++) {
+    for (int i = 0; i < m_linha; i++) 
+    {
+        std::cout << "| ";
         for (int j = 0; j < m_coluna; j++) {
             std::cout << get(i, j) << " ";
         }
+        std::cout << "| ";
         std::cout << std::endl;
     }
 }
