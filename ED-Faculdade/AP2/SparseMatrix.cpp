@@ -5,14 +5,12 @@
 #include "SparseMatrix.h"
 #include <iostream>
 
-SparseMatrix::SparseMatrix(int coluna, int linha) : m_coluna(coluna), m_linha(linha)
-{
+SparseMatrix::SparseMatrix(int coluna, int linha) : m_coluna(coluna), m_linha(linha){
     // Inicializa a cabeça da matriz esparsa
     m_head = new Node(0, 0, 0, nullptr, nullptr);
 }
 
-SparseMatrix::~SparseMatrix()
-{
+SparseMatrix::~SparseMatrix() {
     // Libera a memória alocada pelos nós da matriz esparsa
     Node* current = m_head;
     while (current != nullptr)
@@ -55,21 +53,25 @@ void SparseMatrix::insert(int linha, int coluna, double valor)
         Node* newNode = new Node(valor, linha, coluna, currentCol->nextdireita, currentRow->nextbaixo);
 
         // Atualiza os ponteiros para inserir o novo nó
-        if (prevRow != nullptr) {
+        if(prevRow != nullptr)
+        {
             prevRow->nextbaixo = newNode;
-        } else {
+        }
+        else
+        {
             m_head->nextbaixo = newNode;
         }
 
-        if (prevCol != nullptr) {
+        if(prevCol != nullptr)
+        {
             prevCol->nextdireita = newNode;
-        } else {
+        }
+        else
+        {
             m_head->nextdireita = newNode;
         }
     }
 }
-
-
 
 
 
@@ -91,8 +93,7 @@ double SparseMatrix::get(int linha, int coluna) {
 }
 
 
-void SparseMatrix::print()
-{
+void SparseMatrix::print() {
     for (int i = 0; i < m_linha; i++) {
         for (int j = 0; j < m_coluna; j++) {
             std::cout << get(i, j) << " ";
@@ -102,11 +103,11 @@ void SparseMatrix::print()
 }
 
 
-int SparseMatrix::getColunas() {
+int SparseMatrix::getColunas(){
     return m_coluna;
 }
 
-int SparseMatrix::getLinhas() {
+int SparseMatrix::getLinhas(){
     return m_linha;
 }
 
