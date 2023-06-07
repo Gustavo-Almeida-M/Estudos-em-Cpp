@@ -9,65 +9,14 @@
 #include <sstream>
 #include <limits>
 
-SparseMatrix* readSparseMatrix(const std::string& filename)
-{
-    std::ifstream file(filename);
-    int linhas, colunas, linha, coluna;
-    double valor;
 
-    file >> linhas >> colunas;
-    SparseMatrix* matrix = new SparseMatrix(colunas, linhas);
-    while (file >> linha >> coluna >> valor) {
-        matrix->insert(linha, coluna, valor);
-    }
-
-    return matrix;
-}
+//o código dessas funções se encontra mais abaixo
+SparseMatrix* readSparseMatrix(const std::string&);
 
 
-SparseMatrix* sum(SparseMatrix* A, SparseMatrix* B) {
-    if (A->getLinhas() == B->getLinhas() && A->getColunas() == B->getColunas())
-    {
-        SparseMatrix* aux = new SparseMatrix(A->getLinhas(), A->getColunas());
+SparseMatrix* sum(SparseMatrix*, SparseMatrix*);
 
-        for(int i = 0; i < A->getLinhas(); i++) {
-            for (int j = 0; j < A->getColunas(); j++) {
-                double valueA = A->get(i, j);
-                double valueB = B->get(i, j);
-                double value = valueA + valueB;
-                
-                if (value != 0.0) {
-                    aux->insert(i, j, value);
-                }
-            }
-        }
-
-        return aux;
-    } else
-    {
-        std::cout << "Nao e possivel somar as matrizes\n";
-        return 0;
-    }
-}
-
-SparseMatrix* multiply(SparseMatrix* A, SparseMatrix* B) {
-    if (A->getColunas() == B->getLinhas()) {
-        SparseMatrix* aux = new SparseMatrix(B->getColunas(), A->getLinhas());
-        for (int i = 0; i < A->getLinhas(); i++) { 
-            for (int j = 0; j < B->getColunas(); j++) {
-                double temp = 0;
-                for (int k = 0; k < A->getColunas(); k++) {
-                    temp += A->get(i, k) * B->get(k, j);
-                }
-                aux->insert(i, j, temp);
-            }
-        }
-        return aux;
-    } else {
-        throw std::runtime_error("As matrizes nao podem ser multiplicadas");
-    }
-}
-
+SparseMatrix* multiply(SparseMatrix*, SparseMatrix*);
 
 
 
@@ -75,8 +24,13 @@ int main()
 {
     std::vector<SparseMatrix*> matrix;
 
+    //Lista de comando do usuario
+    std::cout << "Lista de comando: \n criar: para criar uma nova matriz \n copiar: para copiar uma matriz para outra \n inserir: para adicionar um valor na posicao selecionada \n remover: para remover um valor na posicao selecionada \n";
+    std::cout << " somar: para imprimir a soma de duas matrizes \n multiplicar: para imprimir a multiplicacao de duas matrizes \n get: para imprimir o valor de uma posicao especifica \n show: para imprimir as matrizes \n load: para carregar um arquivo com testes\n sair: para terminar as operacoes\n";
+
     while(true)
     {
+
         std::string comando, token;
         std::getline(std::cin, comando);
         std::stringstream ss(comando);
@@ -84,7 +38,7 @@ int main()
 
         std::cout << "$" << ss.str() << std::endl;
 
-        if (token == "exit")
+        if (token == "sair")
         {
             for (unsigned i = 0; i < matrix.size(); i++)
             {
@@ -101,6 +55,8 @@ int main()
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             SparseMatrix* lst = new SparseMatrix(colunas, linhas);
             matrix.push_back(lst);
+
+            std::cout << "Matriz criada com sucesso \n";
         }
         else if(token == "copiar")
         {
@@ -108,23 +64,32 @@ int main()
             ss >> nMatriz;
             SparseMatrix* lst = new SparseMatrix(*matrix[nMatriz]);
             matrix.push_back(lst);
+            std::cout << "Copiado com sucesso\n";
         }
         else if (token == "inserir")
         {
             int nMatriz, linha, coluna;
             double valor;
+            
+            std::cout << "Digite: numero da matriz, linha, coluna e o valor para ser adicionado\n";
             std::cin >> nMatriz >> linha >> coluna >> valor;
             matrix[nMatriz]->insert(linha, coluna, valor);
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+            std::cout << "Valor inserido com sucesso\n";
         }
         else if (token == "remover")
         {
             int nMatriz, linha, coluna;
+
+            std::cout << "Digite: numero da matriz, linha e coluna para que o valor seja removido\n";
             std::cin >> nMatriz >> linha >> coluna;
             matrix[nMatriz]->remove(linha, coluna);
+
+            std::cout << "Removido com sucesso " << std::endl;
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
-        else if (token == "soma")
+        else if (token == "somar")
         {
             int matriz1, matriz2;
             std::cout << "Digite quais matrizes quer somar: \n";
@@ -159,6 +124,8 @@ int main()
         else if (token == "get")
         {
             int nMatriz, linha, coluna;
+
+            std::cout << "Digite: numero da matriz, linha e coluna: \n";
             std::cin >> nMatriz >> linha >> coluna;
             double valor = matrix[nMatriz]->get(linha, coluna);
             std::cout << "Valor: " << valor << std::endl;
@@ -174,6 +141,7 @@ int main()
         else if (token == "load")
         {
             std::string filename;
+            std::cout << "Digite o nome do arquivo: \n";
             ss >> filename;
             SparseMatrix* matriz = readSparseMatrix(filename);
             matrix.push_back(matriz);
@@ -187,3 +155,59 @@ int main()
     return 0;
 }
 
+SparseMatrix* multiply(SparseMatrix* A, SparseMatrix* B) {
+    if (A->getColunas() == B->getLinhas()) {
+        SparseMatrix* aux = new SparseMatrix(B->getColunas(), A->getLinhas());
+        for (int i = 0; i < A->getLinhas(); i++) { 
+            for (int j = 0; j < B->getColunas(); j++) {
+                double temp = 0;
+                for (int k = 0; k < A->getColunas(); k++) {
+                    temp += A->get(i, k) * B->get(k, j);
+                }
+                aux->insert(i, j, temp);
+            }
+        }
+        return aux;
+    } else {
+        throw std::runtime_error("As matrizes nao podem ser multiplicadas");
+    }
+}
+
+SparseMatrix* sum(SparseMatrix* A, SparseMatrix* B) {
+    if (A->getLinhas() == B->getLinhas() && A->getColunas() == B->getColunas())
+    {
+        SparseMatrix* aux = new SparseMatrix(A->getLinhas(), A->getColunas());
+
+        for(int i = 0; i < A->getLinhas(); i++) {
+            for (int j = 0; j < A->getColunas(); j++) {
+                double valueA = A->get(i, j);
+                double valueB = B->get(i, j);
+                double value = valueA + valueB;
+                
+                if (value != 0.0) {
+                    aux->insert(i, j, value);
+                }
+            }
+        }
+
+        return aux;
+    } else
+    {
+        std::cout << "Nao e possivel somar as matrizes\n";
+        return 0;
+    }
+}
+SparseMatrix* readSparseMatrix(const std::string& filename)
+{
+    std::ifstream file(filename);
+    int linhas, colunas, linha, coluna;
+    double valor;
+
+    file >> linhas >> colunas;
+    SparseMatrix* matrix = new SparseMatrix(colunas, linhas);
+    while (file >> linha >> coluna >> valor) {
+        matrix->insert(linha, coluna, valor);
+    }
+
+    return matrix;
+}

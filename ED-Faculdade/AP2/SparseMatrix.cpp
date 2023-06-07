@@ -112,20 +112,20 @@ int SparseMatrix::getLinhas(){
 }
 
 void SparseMatrix::remove(int linha, int coluna) {
-    if (linha <= 0 || linha > m_linha || coluna <= 0 || coluna > m_coluna) {
+    if (linha < 0 || linha >= m_linha || coluna < 0 || coluna >= m_coluna) {
         std::cout << "Posicao invalida." << std::endl;
         return;
     }
 
     Node* prevRow = nullptr;
-    Node* currentRow = m_head;
+    Node* currentRow = m_head->nextbaixo;  // Inicia a partir do primeiro nó da linha
     while (currentRow != nullptr && currentRow->linha < linha) {
         prevRow = currentRow;
         currentRow = currentRow->nextbaixo;
     }
 
     Node* prevCol = nullptr;
-    Node* currentCol = m_head;
+    Node* currentCol = m_head->nextdireita;  // Inicia a partir do primeiro nó da coluna
     while (currentCol != nullptr && currentCol->coluna < coluna) {
         prevCol = currentCol;
         currentCol = currentCol->nextdireita;
@@ -149,6 +149,7 @@ void SparseMatrix::remove(int linha, int coluna) {
         std::cout << "Elemento nao encontrado." << std::endl;
     }
 }
+
 
 SparseMatrix SparseMatrix::copia() const {
     SparseMatrix copia(m_coluna, m_linha);
