@@ -29,7 +29,7 @@ int main()
     std::cout << "\033[0m" << std::endl;
     // Lista de comando do usuario
     std::cout << "Lista de comandos: \n criar -> para criar uma nova matriz \n copiar -> para copiar uma matriz para outra \n inserir -> para adicionar um valor na posicao selecionada \n remover-> para remover um valor na posicao selecionada \n";
-    std::cout << " somar -> para imprimir a soma de duas matrizes \n multiplicar -> para imprimir a multiplicacao de duas matrizes \n get -> para imprimir o valor de uma posicao especifica \n show -> para imprimir as matrizes \n load -> para carregar um arquivo com testes\n sair -> para terminar as operacoes\n";
+    std::cout << " somar -> para imprimir a soma de duas matrizes \n multiplicar -> para imprimir a multiplicacao de duas matrizes \n get -> para imprimir o valor de uma posicao especifica \n show -> para imprimir as matrizes \n carregar -> para carregar um arquivo com uma matriz\n sair -> para terminar as operacoes\n";
     std::cout << "----------------------------------------------------------\n";
 
     while(true)
@@ -53,13 +53,11 @@ int main()
         }
         else if (token == "criar")
         {
-            char linhas, colunas;
-            std::cout << "Digite o numero de linhas e colunas: ";
+            int linhas, colunas;
+            std::cout << "Digite um numero inteiro de linhas e colunas: ";
             std::cin >> linhas >> colunas;
-            int cLinhas = static_cast<int>(linhas);
-            int cColunas =  static_cast<int>(colunas);
             std::cin.ignore();
-            SparseMatrix* lst = new SparseMatrix(cLinhas, cColunas);
+            SparseMatrix* lst = new SparseMatrix(linhas, colunas);
             matrix.push_back(lst);
 
             std::cout << "Matriz criada com sucesso \n";
@@ -170,18 +168,15 @@ int main()
                 std::cout << '\n';
             }
         }
-        else if (token == "load")
+        else if (token == "carregar")
         {
             std::string filename;
             std::cout << "Digite o nome do arquivo: \n";
-            ss >> filename;
+            std::cin >> filename;
             SparseMatrix* matriz = readSparseMatrix(filename);
             matrix.push_back(matriz);
         }
-        else
-        {
-            std::cout << "Comando inexistente" << std::endl;
-        }
+
     }
 
     return 0;
@@ -236,13 +231,18 @@ SparseMatrix* sum(SparseMatrix* A, SparseMatrix* B) {
 SparseMatrix* readSparseMatrix(const std::string& filename)
 {
     std::ifstream file(filename);
-    int linhas, colunas, linha, coluna;
-    double valor;
+    int linhas, colunas;
 
     file >> linhas >> colunas;
     SparseMatrix* matrix = new SparseMatrix(colunas, linhas);
-    while (file >> linha >> coluna >> valor) {
-        matrix->insert(linha, coluna, valor);
+    for (int linha = 0; linha < linhas; linha++)
+    {
+        for (int coluna = 0; coluna < colunas; coluna++)
+        {
+            double valor;
+            file >> valor;
+            matrix->insert(linha, coluna, valor);
+        }
     }
 
     return matrix;
