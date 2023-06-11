@@ -53,11 +53,13 @@ int main()
         }
         else if (token == "criar")
         {
-            int linhas, colunas;
+            char linhas, colunas;
             std::cout << "Digite o numero de linhas e colunas: ";
             std::cin >> linhas >> colunas;
+            int cLinhas = static_cast<int>(linhas);
+            int cColunas =  static_cast<int>(colunas);
             std::cin.ignore();
-            SparseMatrix* lst = new SparseMatrix(linhas, colunas);
+            SparseMatrix* lst = new SparseMatrix(cLinhas, cColunas);
             matrix.push_back(lst);
 
             std::cout << "Matriz criada com sucesso \n";
@@ -88,7 +90,7 @@ int main()
             }
             else
             {
-                std::cout << "Erro ao inserir, confira os dados de entrada\n";
+                std::cout << "Erro ao INSERIR, confira os dados de entrada\n";
             }
         }
         else if (token == "remover")
@@ -100,7 +102,7 @@ int main()
             if(nMatriz < matrix.size() && nMatriz >= 0)
             {
                 (matrix[nMatriz]->remove(linha, coluna))?std::cout << "Removido com sucesso\n":
-                std::cout << "Erro ao inserir, confira os dados de entrada\n";
+                std::cout << "Erro ao REMOVER, confira os dados de entrada\n";
             }
             
             std::cin.ignore();
@@ -110,14 +112,21 @@ int main()
             int matriz1, matriz2;
             std::cout << "Digite quais matrizes quer somar: \n";
             std::cin >> matriz1 >> matriz2;
+            if((matriz1 < matrix.size() && matriz2 < matrix.size())&& (matriz1 >= 0 && matriz2 >= 0))
+            {
+                SparseMatrix* resultado = sum(matrix[matriz1], matrix[matriz2]);
 
-            SparseMatrix* resultado = sum(matrix[matriz1], matrix[matriz2]);
+                resultado->print();
 
-            resultado->print();
+                delete resultado;
 
-            delete resultado;
-
-            std::cin.ignore();
+                std::cin.ignore();
+            }
+            else
+            {
+                std::cout << "Erro ao SOMAR, confira os dados de entrada\n";
+                std::cin.ignore();
+            }
         }
         else if (token == "multiplicar")
         {
@@ -125,15 +134,22 @@ int main()
             std::cout << "Digite quais matrizes quer multiplicar: \n";
             std::cin >> matriz1 >> matriz2;
 
-            SparseMatrix* resultado = multiply(matrix[matriz1], matrix[matriz2]);
+            if((matriz1 < matrix.size() && matriz2 < matrix.size())&& (matriz1 >= 0 && matriz2 >= 0))
+            {
+                SparseMatrix* resultado = multiply(matrix[matriz1], matrix[matriz2]);
 
-            // Faça algo com a matriz resultado, como imprimir seus valores
-            resultado->print();
+                resultado->print();
 
-            // Lembre-se de liberar a memória alocada para a matriz resultado
-            delete resultado;
+                delete resultado;
 
-            std::cin.ignore();
+                std::cin.ignore();
+            }
+            else
+            {
+                std::cout << "Erro ao MULTIPLICAR, confira os dados de entrada\n";
+                std::cin.ignore();
+
+            }
         }
         else if (token == "get")
         {

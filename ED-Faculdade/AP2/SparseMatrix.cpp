@@ -164,6 +164,7 @@ bool SparseMatrix::remove(int linha, int coluna) {
         delete currentRow;
     } else {
         std::cout << "Elemento nao encontrado." << std::endl;
+        return false;
     }
     return true;
 }
