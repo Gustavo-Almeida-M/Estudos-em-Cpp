@@ -17,13 +17,13 @@ private:
 public:
     SparseMatrix(int coluna, int linha);
     ~SparseMatrix();
-    void insert(int linha, int coluna, double valor);
+    bool insert(int linha, int coluna, double valor);
     void remove(int linha, int coluna);
     double get(int linha, int coluna);
     void print();
     int getColunas();
     int getLinhas();
-    SparseMatrix copia() const;
+    SparseMatrix copiar(SparseMatrix *matrix);
 };
 
 #endif

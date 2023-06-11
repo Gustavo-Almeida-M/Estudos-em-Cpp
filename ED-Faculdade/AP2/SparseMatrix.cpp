@@ -5,7 +5,7 @@
 #include "SparseMatrix.h"
 #include <iostream>
 
-SparseMatrix::SparseMatrix(int coluna, int linha) : m_coluna(coluna), m_linha(linha){
+SparseMatrix::SparseMatrix(int linha, int coluna) : m_linha(linha), m_coluna(coluna){
     // Inicializa a cabeça da matriz esparsa
     m_head = new Node(0, 0, 0, nullptr, nullptr);
 }
@@ -21,12 +21,12 @@ SparseMatrix::~SparseMatrix() {
     }
 }
 
-void SparseMatrix::insert(int linha, int coluna, double valor)
+bool SparseMatrix::insert(int linha, int coluna, double valor)
 {
     if (linha < 0 || linha > m_linha || coluna < 0 || coluna > m_coluna)
     {
         std::cout << "Posicao invalida." << std::endl;
-        return;
+        return false;
     }
 
     // Encontra o nó anterior na mesma linha
@@ -71,6 +71,33 @@ void SparseMatrix::insert(int linha, int coluna, double valor)
             m_head->nextdireita = newNode;
         }
     }
+    return true;
+}
+
+// SparseMatrix SparseMatrix::copiar(SparseMatrix matrix)
+// {
+//     SparseMatrix aux(matrix.getLinhas(), matrix.getColunas());
+
+//     for(int i = 0; i < aux.getLinhas();i++)
+//     {
+//         for(int j = 0; j < aux.getColunas(); j++)
+//         {
+//             aux.insert(i, j, matrix.get(i, j));
+//         }
+//     }
+//     return aux;
+// }
+SparseMatrix SparseMatrix::copiar(SparseMatrix *matrix)
+{
+    SparseMatrix aux(matrix->getLinhas(), matrix->getColunas());
+            for(int i = 0; i < aux.getLinhas();i++)
+            {
+                for(int j = 0; j < aux.getColunas(); j++)
+                {
+                    aux.insert(i, j, matrix->get(i, j));
+                }
+            }
+    return aux;
 }
 
 
@@ -134,7 +161,7 @@ void SparseMatrix::remove(int linha, int coluna) {
         currentCol = currentCol->nextdireita;
     }
 
-    if (currentRow != nullptr && currentRow->linha == linha && currentRow->coluna == coluna) {
+    if (currentRow != nullptr && currentRow->linha == linha && currentCol != nullptr && currentCol->coluna == coluna && currentRow == currentCol) {
         if (prevRow != nullptr) {
             prevRow->nextbaixo = currentRow->nextbaixo;
         } else {
@@ -151,17 +178,4 @@ void SparseMatrix::remove(int linha, int coluna) {
     } else {
         std::cout << "Elemento nao encontrado." << std::endl;
     }
-}
-
-
-SparseMatrix SparseMatrix::copia() const {
-    SparseMatrix copia(m_coluna, m_linha);
-
-    Node* current = m_head->nextbaixo;
-    while (current != nullptr) {
-        copia.insert(current->linha, current->coluna, current->valor);
-        current = current->nextbaixo;
-    }
-
-    return copia;
 }
