@@ -81,9 +81,15 @@ int main()
             
             std::cout << "Digite: numero da matriz, linha, coluna e o valor para ser adicionado\n";
             std::cin >> nMatriz >> linha >> coluna >> valor;
-            (matrix[nMatriz]->insert(linha, coluna, valor))? std::cout << "Valor inserido com sucesso\n" : std::cout << "Erro ao inserir, confira os dados de entrada";
-            std::cin.ignore();
-
+            if(nMatriz < matrix.size() && nMatriz >= 0)
+            {
+                (matrix[nMatriz]->insert(linha, coluna, valor))? std::cout << "Valor inserido com sucesso\n" : std::cout << "Erro ao inserir, confira os dados de entrada";
+                std::cin.ignore();
+            }
+            else
+            {
+                std::cout << "Erro ao inserir, confira os dados de entrada\n";
+            }
         }
         else if (token == "remover")
         {
@@ -91,9 +97,12 @@ int main()
 
             std::cout << "Digite: numero da matriz, linha e coluna para que o valor seja removido\n";
             std::cin >> nMatriz >> linha >> coluna;
-            matrix[nMatriz]->remove(linha, coluna);
-
-            std::cout << "Removido com sucesso " << std::endl;
+            if(nMatriz < matrix.size() && nMatriz >= 0)
+            {
+                (matrix[nMatriz]->remove(linha, coluna))?std::cout << "Removido com sucesso\n":
+                std::cout << "Erro ao inserir, confira os dados de entrada\n";
+            }
+            
             std::cin.ignore();
         }
         else if (token == "somar")

@@ -74,19 +74,6 @@ bool SparseMatrix::insert(int linha, int coluna, double valor)
     return true;
 }
 
-// SparseMatrix SparseMatrix::copiar(SparseMatrix matrix)
-// {
-//     SparseMatrix aux(matrix.getLinhas(), matrix.getColunas());
-
-//     for(int i = 0; i < aux.getLinhas();i++)
-//     {
-//         for(int j = 0; j < aux.getColunas(); j++)
-//         {
-//             aux.insert(i, j, matrix.get(i, j));
-//         }
-//     }
-//     return aux;
-// }
 SparseMatrix SparseMatrix::copiar(SparseMatrix *matrix)
 {
     SparseMatrix aux(matrix->getLinhas(), matrix->getColunas());
@@ -141,10 +128,10 @@ int SparseMatrix::getLinhas(){
     return m_linha;
 }
 
-void SparseMatrix::remove(int linha, int coluna) {
+bool SparseMatrix::remove(int linha, int coluna) {
     if (linha < 0 || linha >= m_linha || coluna < 0 || coluna >= m_coluna) {
         std::cout << "Posicao invalida." << std::endl;
-        return;
+        return false;
     }
 
     Node* prevRow = nullptr;
@@ -178,4 +165,5 @@ void SparseMatrix::remove(int linha, int coluna) {
     } else {
         std::cout << "Elemento nao encontrado." << std::endl;
     }
+    return true;
 }

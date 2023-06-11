@@ -18,7 +18,7 @@ public:
     SparseMatrix(int coluna, int linha);
     ~SparseMatrix();
     bool insert(int linha, int coluna, double valor);
-    void remove(int linha, int coluna);
+    bool remove(int linha, int coluna);
     double get(int linha, int coluna);
     void print();
     int getColunas();
