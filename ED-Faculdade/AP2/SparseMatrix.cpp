@@ -21,12 +21,12 @@ SparseMatrix::~SparseMatrix() {
     }
 }
 
-bool SparseMatrix::insert(int linha, int coluna, double valor)
+void SparseMatrix::insert(int linha, int coluna, double valor)
 {
     if (linha < 0 || linha > m_linha || coluna < 0 || coluna > m_coluna)
     {
         std::cout << "Posicao invalida." << std::endl;
-        return false;
+        return;
     }
 
     // Encontra o nó anterior na mesma linha
@@ -71,20 +71,19 @@ bool SparseMatrix::insert(int linha, int coluna, double valor)
             m_head->nextdireita = newNode;
         }
     }
-    return true;
+    return;
 }
 
-SparseMatrix SparseMatrix::copiar(SparseMatrix *matrix)
+SparseMatrix* SparseMatrix::copiar(SparseMatrix *matrix, SparseMatrix *saidaM)
 {
-    SparseMatrix aux(matrix->getLinhas(), matrix->getColunas());
-            for(int i = 0; i < aux.getLinhas();i++)
+            for(int i = 0; i < saidaM->getLinhas();i++)
             {
-                for(int j = 0; j < aux.getColunas(); j++)
+                for(int j = 0; j < saidaM->getColunas(); j++)
                 {
-                    aux.insert(i, j, matrix->get(i, j));
+                    saidaM->insert(i, j, matrix->get(i, j));
                 }
             }
-    return aux;
+    return saidaM;
 }
 
 
@@ -128,10 +127,10 @@ int SparseMatrix::getLinhas(){
     return m_linha;
 }
 
-bool SparseMatrix::remove(int linha, int coluna) {
+void SparseMatrix::remove(int linha, int coluna) {
     if (linha < 0 || linha >= m_linha || coluna < 0 || coluna >= m_coluna) {
         std::cout << "Posicao invalida." << std::endl;
-        return false;
+        return;
     }
 
     Node* prevRow = nullptr;
@@ -164,7 +163,7 @@ bool SparseMatrix::remove(int linha, int coluna) {
         delete currentRow;
     } else {
         std::cout << "Elemento nao encontrado." << std::endl;
-        return false;
+        return;
     }
-    return true;
+    return;
 }

@@ -8,7 +8,6 @@
 #include <vector>
 #include <sstream>
 
-
 //o código dessas funções se encontra mais abaixo
 SparseMatrix* readSparseMatrix(const std::string&);
 
@@ -68,8 +67,7 @@ int main()
             std::cout << "Digite o numero da matriz para ser copiada\n";
             std::cin >> nMatriz;
             SparseMatrix* lst = new SparseMatrix(matrix[nMatriz]->getLinhas(), matrix[nMatriz]->getColunas());
-            SparseMatrix* aux = new SparseMatrix(matrix[nMatriz]->getLinhas(), matrix[nMatriz]->getColunas());
-            lst->copiar(aux);
+            lst->copiar(matrix[nMatriz], lst);
             matrix.push_back(lst);
             std::cout << "Copiado com sucesso\n";
             std::cin.ignore();
@@ -83,7 +81,7 @@ int main()
             std::cin >> nMatriz >> linha >> coluna >> valor;
             if(nMatriz < matrix.size() && nMatriz >= 0)
             {
-                (matrix[nMatriz]->insert(linha, coluna, valor))? std::cout << "Valor inserido com sucesso\n" : std::cout << "Erro ao inserir, confira os dados de entrada";
+                matrix[nMatriz]->insert(linha, coluna, valor);
                 std::cin.ignore();
             }
             else
@@ -99,8 +97,7 @@ int main()
             std::cin >> nMatriz >> linha >> coluna;
             if(nMatriz < matrix.size() && nMatriz >= 0)
             {
-                (matrix[nMatriz]->remove(linha, coluna))?std::cout << "Removido com sucesso\n":
-                std::cout << "Erro ao REMOVER, confira os dados de entrada\n";
+                matrix[nMatriz]->remove(linha, coluna);
             }
             
             std::cin.ignore();
@@ -171,13 +168,40 @@ int main()
         else if (token == "carregar")
         {
             std::string filename;
-            std::cout << "Digite o nome do arquivo: \n";
-            std::cin >> filename;
-            SparseMatrix* matriz = readSparseMatrix(filename);
-            matrix.push_back(matriz);
-        }
+            std::ifstream file;
 
+            std::cout << filename << '\n';
+
+            while (true)
+            {
+                std::cout << "Digite o nome do arquivo ou 'voltar' para retornar ao menu principal: \n";
+                std::getline(std::cin, filename);
+
+                if (filename == "voltar")
+                {
+                    break;
+                }
+
+                file.open(filename);
+                if (file.is_open())
+                {
+                    file.close();
+                    SparseMatrix *matriz = readSparseMatrix(filename);
+                    matrix.push_back(matriz);
+                    break;
+                }
+                else
+                {
+                    std::cout << "Arquivo não encontrado. Tente novamente.\n";
+                }
+            }
+        }
+        else
+        {
+            std::cout << "Comando inexistente\n ";
+        }
     }
+
 
     return 0;
 }
@@ -228,13 +252,13 @@ SparseMatrix* sum(SparseMatrix* A, SparseMatrix* B) {
 }
 
 
-SparseMatrix* readSparseMatrix(const std::string& filename)
+SparseMatrix *readSparseMatrix(const std::string &filename)
 {
     std::ifstream file(filename);
     int linhas, colunas;
 
     file >> linhas >> colunas;
-    SparseMatrix* matrix = new SparseMatrix(colunas, linhas);
+    SparseMatrix *matrix = new SparseMatrix(colunas, linhas);
     for (int linha = 0; linha < linhas; linha++)
     {
         for (int coluna = 0; coluna < colunas; coluna++)
