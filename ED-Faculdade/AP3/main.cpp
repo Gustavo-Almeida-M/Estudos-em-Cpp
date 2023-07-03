@@ -37,20 +37,33 @@ void testa_algoritmoInsertionsort(int vec[], int l, int r, List lst, string name
 
     cout << name << ": " << duration.count() << " microssegundos" << endl;
 }
+
+void testa_algoritmoMergesort(int vec[], int l, int r, List lst, string name) {
+    auto start = chrono::steady_clock::now();
+    lst.mergesort(vec, l, r);
+    auto end = chrono::steady_clock::now();
+
+    auto duration = chrono::duration_cast<chrono::microseconds>(end-start);
+
+    cout << name << ": " << duration.count() << " microssegundos" << endl;
+}
+
 int main()
 {
-    const int tamanho {30};
+    const int tamanho {50};
     int vec1[tamanho];
     int vec2[tamanho];
+    int vec3[tamanho];
     for(int i = 0; i < tamanho; i++) {
-        vec1[i] = vec2[i] = rand() % 100;
+        vec1[i] = vec2[i] = vec3[i] = rand() % 1000;
     }
 
     List lst;
 
 
-    // testa_algoritmoBubblesort(vec1, 0, tamanho-1, lst, "bubblesort");
-    // testa_algoritmoInsertionsort(vec2, 0, tamanho-1, lst, "insertionsort");
+    testa_algoritmoBubblesort(vec1, 0, tamanho-1, lst, "bubblesort");
+    testa_algoritmoInsertionsort(vec2, 0, tamanho-1, lst, "insertionsort");
+    testa_algoritmoMergesort(vec3, 0, tamanho, lst, "mergesort");
     
 
     // Imprimir os vetores ordenados
@@ -66,11 +79,16 @@ int main()
     }
     std::cout << std::endl;
 
+    std::cout << "Vetor ordenado por mergesort : ";
+    for (int i = 0; i < tamanho; i++) {
+        std::cout << vec3[i] << " ";
+    }
+    std::cout << std::endl;
+
+    cout << "Tempo de execucao no inicio!";
+
     int valor;
-
     std::cin >> valor;
-
-    cout << '\n' <<valor;
 
     return 0;
 }

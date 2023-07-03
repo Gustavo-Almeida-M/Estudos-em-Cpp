@@ -120,12 +120,17 @@ public:
         }
     }
     //chamada para o insertionsort
-    void insertionsort(int A[], int l, int r);
+    void insertionsort(int A[], int inicio, int fim);
     //chamada para a bubblesort
-    void bubblesort(int A[], int l, int r);
+    void bubblesort(int A[], int inicio, int fim);
     //chamada para a mergesort
-    void mergesort(int A[],  int l, int r);
-
+    void mergesort(int A[],  int inicio, int fim);
+    //funcao auxiliar para mergesort
+    void merge(int A[], int inicio, int meio, int fim);
+    //chamada para quicksort
+    void quicksort(int A[], int inicio, int fim);
+    //funcao auxiliar para quicksort
+    int partition(int A[], int inicio, int fim);
 };
 
 #endif
