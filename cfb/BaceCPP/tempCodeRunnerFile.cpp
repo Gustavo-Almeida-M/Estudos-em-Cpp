@@ -1,4 +1,4 @@
-std::fstream arquivo;
+//std::fstream arquivo;
 
     // char opc = 's';
     // std::string nome;
